@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -7,7 +7,9 @@
 	<key>bundleUUID</key>
 	<string>0D39D7BD-CD02-48EF-BB9C-2210BFFC5AD7</string>
 	<key>command</key>
-	<string>. "$TM_SUPPORT_PATH/lib/webpreview.sh"
+	<string>#!/bin/bash
+source "$TM_SUPPORT_PATH/lib/bash_init.sh" # might not be necessary
+. "$TM_SUPPORT_PATH/lib/webpreview.sh"
 html_header "CTags Help" "CTags"
 Markdown.pl &lt;&lt;'EOF'|SmartyPants.pl
 
@@ -48,6 +50,14 @@ Set this variable to 0 to avoid TextMate jumping when a unique definition is fou
 * TmCtagsTagFileName
 
 The file name used to store tags in. Default is *tmtags*.
+
+* TmCtagsHistoryFileName
+
+The file name used to store the history in. Default is *tmtagsHistory*.
+
+* TmCtagsHistorySize
+
+How many previous locations to show in the *You where here* section
 
 * TM\_TAGS\_FILE
 
@@ -93,7 +103,8 @@ Feedback is welcome: gerti-ctagstmb@bitart.com
 [3]: http://gerd.knops.com/
 
 EOF
-html_footer</string>
+html_footer
+</string>
 	<key>input</key>
 	<string>none</string>
 	<key>name</key>
