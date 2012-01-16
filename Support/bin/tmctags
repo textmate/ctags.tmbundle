@@ -569,10 +569,9 @@ sub _findTags {
 			}
 			
 			$outLineNo++;
-			my $evenOdd=($outLineNo%2)?'odd':'even';
 			
 			print <<"HTML";
-<dt class="$evenOdd">
+<dt>
 <span class="filename"><a href="txmt://open?url=file://$file&line=$lno">$filename:$lno -- $path</a></span><br>
 <span class="code">$code</span>
 </dt>
@@ -600,7 +599,7 @@ HTML
 </dl>
 <h2>You were here:</h2>
 <dl class="top">
-<dt class="odd">
+<dt>
 <span class="filename"><a href="txmt://open?url=file://$ENV{'TM_FILEPATH'}&line=$ENV{'TM_LINE_NUMBER'}">$ENV{'TM_FILENAME'}:$ENV{'TM_LINE_NUMBER'} -- $ENV{'TM_DIRECTORY'}</a></span><br>
 <span class="code">$ENV{'TM_CURRENT_LINE'}</span>
 </dt>
@@ -652,20 +651,17 @@ a:hover {
 	font-family: 'Monaco', 'courier','serif';
 }
 
-.even {
-	background-color: #eeeeee;
+dt {
 	margin-top: 0px;
 	margin-bottom: 0px;
 	padding-top: 2px;
 	padding-bottom: 2px;
 }
-
-.odd {
+dt:nth-child(odd) {
 	background-color: #ffffff;
-	margin-top: 0px;
-	margin-bottom: 0px;
-	padding-top: 2px;
-	padding-bottom: 2px;
+}
+dl:nth-child(even) {
+	background-color: #eeeeee;
 }
 
 .summary {
