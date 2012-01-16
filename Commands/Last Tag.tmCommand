@@ -5,25 +5,21 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string># just to remind you of some useful environment variables
-# see Help / Environment Variables for the full list
-#echo File: "$TM_FILEPATH"
-#echo Word: "$TM_CURRENT_WORD"
-#echo Selection: "$TM_SELECTED_TEXT"
-
-exec "$TM_BUNDLE_SUPPORT/bin/tmctags" update
+	<string>exec "$TM_BUNDLE_SUPPORT/bin/tmctags" last
 </string>
+	<key>fallbackInput</key>
+	<string>scope</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
-	<string>^}</string>
+	<string>^[</string>
 	<key>name</key>
-	<string>Update Tags</string>
+	<string>Last Tag</string>
 	<key>output</key>
-	<string>showAsTooltip</string>
+	<string>showAsHTML</string>
 	<key>scope</key>
 	<string>source</string>
 	<key>uuid</key>
-	<string>F82D2DF8-6914-4EEC-BA46-F1E4B1716108</string>
+	<string>6A99FDF6-5DB4-4CBE-91F8-4B82D637F8AD</string>
 </dict>
 </plist>

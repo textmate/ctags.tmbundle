@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>contactEmailRot13</key>
 	<string>tregv-grkgzngr@ovgneg.pbz</string>
 	<key>contactName</key>
 	<string>Gerd Knops</string>
+	<key>deleted</key>
+	<array>
+		<string>E0B23ED0-7602-494B-8C81-6C5929AAF98C</string>
+	</array>
 	<key>description</key>
 	<string>The &lt;a href="http://ctags.sourceforge.net/"&gt;ctags&lt;/a&gt; system allows you to jump to the definition of a symbol. This bundle adds such support to TextMate.</string>
 	<key>name</key>
@@ -14,6 +18,8 @@
 	<array>
 		<string>F82D2DF8-6914-4EEC-BA46-F1E4B1716108</string>
 		<string>4E4A0404-8560-483A-B975-E53F6A6B7E25</string>
+		<string>6A99FDF6-5DB4-4CBE-91F8-4B82D637F8AD</string>
+		<string>CF06E855-A45F-4AC0-A5F3-D9A99B2D7059</string>
 	</array>
 	<key>uuid</key>
 	<string>0D39D7BD-CD02-48EF-BB9C-2210BFFC5AD7</string>
