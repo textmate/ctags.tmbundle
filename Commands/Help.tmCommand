@@ -21,7 +21,7 @@ The CTags bundle allows you to quickly look up function definitions, variables e
 Usage
 -----
 
-With the cursor over a word for which you want to see the definition, select *CTags/Find Tags* or press the assigned shortcut. A window will show up listing all locations where the term was defined, as well as your current location so you can easily find your way back. If only one location is found, TextMate will jump there (this behavior can be changed with the  *TmCtagsAutoJump* environment variable, see below).
+With the cursor over a word for which you want to see the definition, select *CTags/Find Tags*. Alternatively you can Command-click a word to look it up. A window will show up listing all locations where the term was defined, as well as your current location so you can easily find your way back. If only one location is found, TextMate will jump there (this behavior can be changed with the  *TmCtagsAutoJump* environment variable, see below).
 
 If you modify the source code, the definition list will become out of sync with your code. Invoke *CTags/Update Tags* to update it.
 
@@ -57,7 +57,7 @@ The file name used to store the history in. Default is *tmtagsHistory*.
 
 * TmCtagsHistorySize
 
-How many previous locations to show in the *You where here* section
+How many previous locations to show in the *You where here* section. Use 0 to disable creation of history file. Default value: *10*.
 
 * TM\_TAGS\_FILE
 
@@ -122,6 +122,6 @@ html_footer
 	<key>uuid</key>
 	<string>CF06E855-A45F-4AC0-A5F3-D9A99B2D7059</string>
 	<key>version</key>
-	<integer>2</integer>
+	<string>2</string>
 </dict>
 </plist>

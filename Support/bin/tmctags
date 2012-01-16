@@ -532,21 +532,26 @@ HTML
 		
 	}
 	
-	open(HISTORY,">>$tagsDir/$CtagsHistoryFileName") or die("Can't open '$tagsDir/$CtagsHistoryFileName' for append: $!\n");
+	my $history.=qq{<dt><span class="filename"><a href="txmt://open?url=file://$ENV{'TM_FILEPATH'}&line=$ENV{'TM_LINE_NUMBER'}">$ENV{'TM_FILENAME'}:$ENV{'TM_LINE_NUMBER'} -- $ENV{'TM_DIRECTORY'}</a></span><br><span class="code">$ENV{'TM_CURRENT_LINE'}</span></dt>\n};
+	
+	if($CtagsHistorySize>1)
+	{
+		my $h=$CtagsHistorySize-1;
 		
-	print HISTORY qq{<dt><span class="filename"><a href="txmt://open?url=file://$ENV{'TM_FILEPATH'}&line=$ENV{'TM_LINE_NUMBER'}">$ENV{'TM_FILENAME'}:$ENV{'TM_LINE_NUMBER'} -- $ENV{'TM_DIRECTORY'}</a></span><br><span class="code">$ENV{'TM_CURRENT_LINE'}</span></dt>\n};
+		$history.=`head -$h '$tagsDir/$CtagsHistoryFileName'`;
 		
-	close(HISTORY);
+		open(HISTORY,">$tagsDir/$CtagsHistoryFileName") or die("Can't open '$tagsDir/$CtagsHistoryFileName' for write: $!\n");
+		print HISTORY $history;
+		close(HISTORY);
+	}
 	
 	print <<"HTML";
 </dl>
 <h2>You were here:</h2>
 <dl class="top">
+	$history
+</dl>
 HTML
-
-print `tail -$CtagsHistorySize -r '$tagsDir/$CtagsHistoryFileName'`;
-
-		print qq{</dl>\n};
 	
 	&pFooter();
 	
