@@ -107,13 +107,21 @@ html_footer
 </string>
 	<key>input</key>
 	<string>none</string>
+	<key>inputFormat</key>
+	<string>text</string>
 	<key>name</key>
-	<string>Help</string>
-	<key>output</key>
-	<string>showAsHTML</string>
+	<string>CTags Help</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>html</string>
+	<key>outputLocation</key>
+	<string>newWindow</string>
 	<key>scope</key>
 	<string>source</string>
 	<key>uuid</key>
 	<string>CF06E855-A45F-4AC0-A5F3-D9A99B2D7059</string>
+	<key>version</key>
+	<integer>2</integer>
 </dict>
 </plist>

@@ -5,7 +5,10 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string># just to remind you of some useful environment variables
+	<string>#!/usr/bin/env bash
+[[ -f "${TM_SUPPORT_PATH}/lib/bash_init.sh" ]] &amp;&amp; . "${TM_SUPPORT_PATH}/lib/bash_init.sh"
+
+# just to remind you of some useful environment variables
 # see Help / Environment Variables for the full list
 #echo File: "$TM_FILEPATH"
 #echo Word: "$TM_CURRENT_WORD"
@@ -15,15 +18,23 @@ exec "$TM_BUNDLE_SUPPORT/bin/tmctags" update
 </string>
 	<key>input</key>
 	<string>none</string>
+	<key>inputFormat</key>
+	<string>text</string>
 	<key>keyEquivalent</key>
-	<string>^}</string>
+	<string>^~@t</string>
 	<key>name</key>
 	<string>Update Tags</string>
-	<key>output</key>
-	<string>showAsTooltip</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>text</string>
+	<key>outputLocation</key>
+	<string>toolTip</string>
 	<key>scope</key>
 	<string>source</string>
 	<key>uuid</key>
 	<string>F82D2DF8-6914-4EEC-BA46-F1E4B1716108</string>
+	<key>version</key>
+	<integer>2</integer>
 </dict>
 </plist>

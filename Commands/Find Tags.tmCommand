@@ -16,8 +16,6 @@ exec "$TM_BUNDLE_SUPPORT/bin/tmctags"
 	<string>selection</string>
 	<key>inputFormat</key>
 	<string>text</string>
-	<key>keyEquivalent</key>
-	<string>^]</string>
 	<key>name</key>
 	<string>Find Tags</string>
 	<key>outputCaret</key>
