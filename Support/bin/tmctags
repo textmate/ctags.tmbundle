@@ -108,7 +108,8 @@ sub findCtagsPGM {
 }
 
 sub findTagsDirStartingAt {
-	my $dir=shift;
+	
+	my $dir=shift // '';
 	
 	while($dir ne '')
 	{
@@ -319,6 +320,64 @@ sub findTags {
 	# $ENV{'TMPDIR'}
 }
 
+sub extractMSig {
+
+	my $word=shift;
+	
+	my @lines=split("\n",$word);
+	
+	my $lineNo=0+$ENV{'TM_LINE_NUMBER'};
+	my $before=join("\n",@lines[0..$lineNo-2]);
+	my $after=join("\n",@lines[$ENV{'TM_LINE_NUMBER'}..scalar(@lines)-1]);
+	
+	my $line=$lines[$lineNo-1];
+	
+	$before.=substr($line,0,$ENV{'TM_LINE_INDEX'});
+	$after=substr($line,$ENV{'TM_LINE_INDEX'}).$after;
+	
+	# print "<br>WORD-START: '$word'<br>\n";
+	# print "<br>LINE: '$line'<br>\n";
+	# print "<br>BEFORE: '$before'<br>\n";
+	# print "<br>AFTER: '$after'<br>\n";
+	
+	
+	my $pre='';
+	
+	while(($pre=~tr/\[//)<=($pre=~tr/\]//))
+	{
+		$before=~s/(\[[^\[]*)$// or return undef;
+		$pre=$1.$pre;
+	}
+	
+	# print "<br>PRE : '$pre'<br>\n";
+	
+	
+	my $post='';
+	
+	while(($post=~tr/\]//)<=($post=~tr/\[//))
+	{
+		$after=~s/^([^\]]*\])// or return undef;
+		$post.=$1;
+	}
+	
+	# print "<br>POST: '$post'<br>\n";
+	
+	$word=substr($pre,1).substr($post,0,-1);
+	
+	# print "<br>LINE : '$word'<br>\n";
+	
+	
+	$word=~s/\[[^\]]*\]//mg;
+	$word=~s/\([^\]]*\)//mg;
+	
+	$word=~s/\:\s*\S+\s*/:/mg;
+	
+	$word=~s/.*\s+//;
+	
+	# print "<br>WORD : '$word'<br>\n";
+	$word;
+}
+
 sub _findTags {
 		
 	my $word=$ENV{'TM_CURRENT_WORD'} or die("Missing 'TM_CURRENT_WORD' environment!\n");
@@ -348,6 +407,8 @@ sub _findTags {
 		
 		if(exists($ENV{'TM_SELECTED_TEXT'}))
 		{
+			# print "<br>Path A<br>\n";
+			
 			$word=~s/\[[^\]]*\]/X/mg;
 			$word=~s/\([^\]]*\)/X/mg;
 			$word=~s/\:\s*\S+\s*/:/mg;
@@ -356,64 +417,70 @@ sub _findTags {
 		}
 		else
 		{
-			my @lines=split("\n",$word);
+			my $cl="$ENV{'TM_CURRENT_LINE'}";
+				
+			my $ts=' ' x $ENV{'TM_TAB_SIZE'};
+			$cl=~s/\t/$ts/g;
+				
+			my $before=substr($cl,0,$ENV{'TM_COLUMN_NUMBER'}-1);
+			my $behind=substr($cl,$ENV{'TM_COLUMN_NUMBER'}-1);
+				
+			# print "<br>before: '$before'<br>\n";
+			# print "<br>behind: '$behind'<br>\n";
+				
+				
+			$before=($before=~/([a-zA-Z0-9_]+)$/)?$1:'';
+			$behind=($behind=~/^([a-zA-Z0-9_]+)/)?$1:'';
+				
+			# print "<br>before: '$before'<br>\n";
+			# print "<br>behind: '$behind'<br>\n";
+				
+			my $currentWord=$before.$behind;
 			
-			my $lineNo=0+$ENV{'TM_LINE_NUMBER'};
-			my $before=join("\n",@lines[0..$lineNo-2]);
-			my $after=join("\n",@lines[$ENV{'TM_LINE_NUMBER'}..scalar(@lines)-1]);
+			my $result=extractMSig($word);
 			
-			my $line=$lines[$lineNo-1];
+			# print "<br>\$result: '$result'<br>\n" if(defined($result));
 			
-			$before.=substr($line,0,$ENV{'TM_LINE_INDEX'});
-			$after=substr($line,$ENV{'TM_LINE_INDEX'}).$after;
-			
-			# print "<br>LINE: '$line'<br>\n";
-			# print "<br>BEFORE: '$before'<br>\n";
-			# print "<br>AFTER: '$after'<br>\n";
-			
-			
-			my $pre='';
-			
-			while(($pre=~tr/\[//)<=($pre=~tr/\]//))
+			if(defined($result) && index($result,$currentWord)>=0)
 			{
-				$before=~s/(\[[^\[]*)$// or die("Can't isolate method signature!\n");
-				$pre=$1.$pre;
+				# print "<br>Path B<br>\n";
+				# 
+				$word=$result;
+				$srchStrt=1;
 			}
-			
-			# print "<br>PRE : '$pre'<br>\n";
-			
-			
-			my $post='';
-			
-			while(($post=~tr/\]//)<=($post=~tr/\[//))
+			else
 			{
-				$after=~s/^([^\]]*\])// or die("Can't isolate method signature!\n");
-				$post.=$1;
+				# print "<br>Path C<br>\n";
+				$word=$currentWord;
+				
+				# Hack for single-line method signatures,
+				# should be expanded for multi-line signatures
+				
+				if($cl=~s/^\s*(\-|\+)\s*\([^\)]+\)\s*//)
+				{
+					$cl=~s/\s*(\{|\;).*//;
+					$cl=~s/\([^\)]+\)\s*\S+\s*//g;
+					$cl=~s/\s+//g;
+					
+					if(index($cl,$word)>=0)
+					{
+						# print "<br>Path C.1<br>\n";
+						
+						$word=$cl;
+						$srchStrt=1;
+					}
+				}
+				
+				
 			}
-			
-			# print "<br>POST: '$post'<br>\n";
-			
-			$word=substr($pre,1).substr($post,0,-1);
-			
-			# print "<br>LINE : '$word'<br>\n";
-			
-			
-			$word=~s/\[[^\]]*\]/X/mg;
-			$word=~s/\([^\]]*\)/X/mg;
-			
-			$word=~s/\:\s*\S+\s*/:/mg;
-			
-			$word=~s/.*\s+//;
-			
-			# print "<br>WORD : '$word'<br>\n";
-			
-			$srchStrt=1;
 		}
 	}
 	
 	my $sound='';
 	
-	&pHeader($word);
+	my $tagPrefix=($srchStrt==1)?'±':'';
+	
+	&pHeader($word,$tagPrefix);
 	
 	my $srch="$word\t";
 	my @lines=();
@@ -441,7 +508,7 @@ sub _findTags {
 	
 	if(scalar(@lines)==0)
 	{
-		print "No tags found for '$word'.\n";
+		print "No tags found for '$tagPrefix$word'.\n";
 		$sound=$ErrorSound;
 		#exit($ExitShowToolTip);
 	}
@@ -510,7 +577,7 @@ sub _findTags {
 <span class="code">$code</span>
 </dt>
 HTML
-			if(!$isHeader)
+			if(!$lastFile || !$isHeader)
 			{
 				$lastFile=$file;
 				$lastLine=$lno;
@@ -519,7 +586,7 @@ HTML
 			$hadHeader=1 if($isHeader);
 		}		
 
-		if($AutoJump && $countNonHeader==1 && defined($lastFile) && defined($lastLine))
+		if($AutoJump && ($countNonHeader==1 || scalar(@lines)==1) && defined($lastFile) && defined($lastLine))
 		{
 			print <<"HTML";
 			<script type="text/javascript">
@@ -549,11 +616,12 @@ HTML
 sub pHeader
 {
 	my $word=shift;
+	my $tagPrefix=shift // '';
 	
 	print <<"HTML";
 <html>
 <head>
-<title>Tags for $word</title>
+<title>Tags for $tagPrefix$word</title>
 <style type="text/css">
 body {
 	font-family: 'Trebuchet MS', 'Arial','Helvetica','sans-serif';
@@ -612,7 +680,7 @@ a:hover {
 </style>
 </head>
 <body>
-<h2>Tags for $word</h2>
+<h2>Tags for $tagPrefix$word</h2>
 <dl class="top">
 HTML
 }
