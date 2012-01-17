@@ -302,8 +302,9 @@ sub extractMSig {
 	# print "<br>LINE : '$word'<br>\n";
 	
 	
-	$word=~s/\[[^\]]*\]//mg;
-	$word=~s/\([^\]]*\)//mg;
+	while($word=~s/\{[^\{\}]*\}//mg) {}
+	while($word=~s/\[[^\[\]]*\]//mg) {}
+	while($word=~s/\([^\(\)]*\)//mg) {}
 	
 	$word=~s/\:\s*\S+\s*/:/mg;
 	
