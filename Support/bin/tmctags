@@ -40,7 +40,7 @@
 	use strict;
 	
 	our $TagFileName=&setFromEnv('TmCtagsTagFileName','tmtags');
-	our $CtagsFlags="--fields=Kn --excmd=pattern -R";
+	our $CtagsFlags="--config-filename=tm_ctags --fields=Kn --excmd=pattern -R";
 	our $CtagsOptFlags=&setFromEnv('TmCtagsFlags','');
 	our $AutoJump=&setFromEnv('TmCtagsAutoJump',1);
 	our $CtagsPGM="$ENV{'TM_BUNDLE_SUPPORT'}/bin/ctags-objc";
@@ -209,7 +209,7 @@ sub updateTags {
 		my $dirs = join( " ", @quotedDirs );
 	    
 		#print("tagfileName: ". $TagFileName);
-		$cmd = "'$ctags' -f $TagFileName $CtagsFlags $CtagsOptFlags $dirs |";
+		$cmd = "'$ctags' $CtagsFlags -f $TagFileName $CtagsOptFlags $dirs |";
 		
 		$::_ctagsPID=undef;
 		#print($dir . "\n");
@@ -428,11 +428,13 @@ sub findTags {
 	open(IN,"$tagsDir/$TagFileName") or die("Can't open '$tagsDir/$TagFileName' for read: $!\n");
 	while(<IN>)
 	{
-		next unless(index($_,$srch)==$srchStrt);
+		# next unless(index($_,$srch)==$srchStrt);
+		next unless(index($_,$srch)==0);
 		push(@lines,$_);
 		while(<IN>)
 		{
-			last unless(index($_,$srch)==$srchStrt);
+			# last unless(index($_,$srch)==$srchStrt);
+			last unless(index($_,$srch)==0);
 			push(@lines,$_);
 		}
 		last;

@@ -18,6 +18,8 @@ CTags.tmbundle
 
 The CTags bundle allows you to quickly look up function definitions, variables etc. It uses the [Exuberant CTags][1] program freely available under the terms of the [GNU General Public License][2] to generate a list of definitions, and presents any match for the current word when invoked.
 
+The ctasg implementation used here is a more uodated version found at [Github][4] which supports additional languages.
+
 Usage
 -----
 
@@ -101,6 +103,7 @@ Feedback is welcome: gerti-ctagstmb@bitart.com
 [1]: http://ctags.sourceforge.net/
 [2]: http://www.gnu.org/copyleft/gpl.html
 [3]: http://gerd.knops.com/
+[4]: https://github.com/fishman/ctags
 
 EOF
 html_footer
