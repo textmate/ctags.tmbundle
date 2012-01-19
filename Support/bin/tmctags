@@ -541,7 +541,7 @@ HTML
 	{
 		my $h=$CtagsHistorySize-1;
 		
-		$history.=`head -$h '$tagsDir/$CtagsHistoryFileName'`;
+		$history.=`head -$h '$tagsDir/$CtagsHistoryFileName'` if(-f "$tagsDir/$CtagsHistoryFileName");
 		
 		open(HISTORY,">$tagsDir/$CtagsHistoryFileName") or die("Can't open '$tagsDir/$CtagsHistoryFileName' for write: $!\n");
 		print HISTORY $history;
