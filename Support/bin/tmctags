@@ -39,6 +39,8 @@
 	
 	use strict;
 	
+	our $DEBUG=0;
+	
 	our $TagFileName=&setFromEnv('TmCtagsTagFileName','tmtags');
 	our $CtagsFlags="--config-filename=tm_ctags --fields=Kn --excmd=pattern -R";
 	our $CtagsOptFlags=&setFromEnv('TmCtagsFlags','');
@@ -185,9 +187,13 @@ sub getQuotedDirs {
     return @quotedDirs;
 }
 sub updateTags {
+	
 	my $dir=&tagsDir();
 	
 	my $ctags=&findCtagsPGM();
+	
+	&playSoundNamed('Frog');
+	
 	
 	#
 	# The old way with system is problematic because occasionally
@@ -313,8 +319,29 @@ sub extractMSig {
 	# print "<br>WORD : '$word'<br>\n";
 	$word;
 }
-
 sub findTags {
+	
+	my $originalFH=undef;
+	
+	if($DEBUG)
+	{
+		open(OUT,">/tmp/tmctags.html") or die("Can't open '/tmp/tmctags.html' for write: $!\n");
+		
+		$originalFH=select(OUT);
+	}
+	
+	&_findTags;
+	
+	if($DEBUG)
+	{
+		close(OUT);
+		select($originalFH);
+		
+		exec('cat /tmp/tmctags.html');
+	}
+}
+
+sub _findTags {
 		
 	my $word=$ENV{'TM_CURRENT_WORD'} or die("Missing 'TM_CURRENT_WORD' environment!\n");
 	my $srchStrt=0;
@@ -511,7 +538,7 @@ sub findTags {
 			print <<"HTML";
 <dt>
 <span class="filename"><a href="txmt://open?url=file://$file&line=$lno">$filename:$lno -- $path</a></span><br>
-<span class="code">$code</span>
+<div class="code">$code</div>
 </dt>
 HTML
 			if(!$lastFile || !$isHeader)
@@ -535,7 +562,7 @@ HTML
 		
 	}
 	
-	my $history.=qq{<dt><span class="filename"><a href="txmt://open?url=file://$ENV{'TM_FILEPATH'}&line=$ENV{'TM_LINE_NUMBER'}">$ENV{'TM_FILENAME'}:$ENV{'TM_LINE_NUMBER'} -- $ENV{'TM_DIRECTORY'}</a></span><br><span class="code">$ENV{'TM_CURRENT_LINE'}</span></dt>\n};
+	my $history.=qq{<dt><span class="filename"><a href="txmt://open?url=file://$ENV{'TM_FILEPATH'}&line=$ENV{'TM_LINE_NUMBER'}">$ENV{'TM_FILENAME'}:$ENV{'TM_LINE_NUMBER'} -- $ENV{'TM_DIRECTORY'}</a></span><br><div class="code">$ENV{'TM_CURRENT_LINE'}</div></dt>\n};
 	
 	if($CtagsHistorySize>1)
 	{
@@ -560,7 +587,6 @@ HTML
 	
 	&playSoundNamed($sound);
 }
-
 sub pHeader
 {
 	my $word=shift;
@@ -572,13 +598,14 @@ sub pHeader
 <title>Tags for $tagPrefix$word</title>
 <style type="text/css">
 body {
-	font-family: 'Trebuchet MS', 'Arial','Helvetica','sans-serif';
+	font-family: 'Helvetica','Arial','sans-serif';
 	font-size: 12;
-	background-color: #eeeeee;
+	background-color: #ffffff;
 }
 
 a {
 	text-decoration: none;
+	color: #888888;
 }
 
 a:hover {
@@ -591,37 +618,27 @@ a:hover {
 }
 
 .filename {
-	font-family: 'Trebuchet MS', 'Arial','Helvetica','sans-serif';
-	font-weight: bold;
 	font-size: 10;
 }
 
 .code {
 	font-family: 'Monaco', 'courier','serif';
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: 12px;
 }
 
 dt {
 	margin-top: 0px;
 	margin-bottom: 0px;
-	padding-top: 2px;
-	padding-bottom: 2px;
+	padding: 4px;
 }
 dt:nth-child(odd) {
-	background-color: #ffffff;
+	background-color: #f4f7fa;
 }
 dl:nth-child(even) {
-	background-color: #eeeeee;
-}
-
-.summary {
-	border: thin solid #000000;
 	background-color: #ffffff;
-	margin-top: 10px;
-	padding: 4px;
-	font-family: 'Trebuchet MS', 'Arial','Helvetica','sans-serif';
-	font-size: 9;
 }
-
 </style>
 </head>
 <body>
