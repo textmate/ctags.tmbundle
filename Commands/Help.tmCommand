@@ -10,7 +10,18 @@
 	<string>#!/bin/bash
 . "$TM_SUPPORT_PATH/lib/webpreview.sh"
 html_header "CTags Help" "CTags"
-Markdown.pl &lt;&lt;'EOF'|SmartyPants.pl
+
+cmds="mmd Markdown.pl cat"
+
+for opt in $cmds
+do
+	cmd=$(command -v "$opt")
+	if [ $cmd ]; then
+		break
+	fi
+done
+
+"$cmd" &lt;&lt;'EOF'|SmartyPants.pl
 
 CTags.tmbundle
 ---------------
@@ -124,6 +135,6 @@ html_footer
 	<key>uuid</key>
 	<string>CF06E855-A45F-4AC0-A5F3-D9A99B2D7059</string>
 	<key>version</key>
-	<integer>2</integer>
+	<string>2</string>
 </dict>
 </plist>
