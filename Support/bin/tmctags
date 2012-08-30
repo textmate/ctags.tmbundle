@@ -343,7 +343,7 @@ sub findTags {
 
 sub _findTags {
 		
-	my $word=$ENV{'TM_CURRENT_WORD'} or die("Missing 'TM_CURRENT_WORD' environment!\n");
+	my $word=$ENV{'TM_CURRENT_WORD'} // $ENV{'TM_SELECTED_TEXT'} or die("Missing 'TM_CURRENT_WORD' environment!\n");
 	my $srchStrt=0;
 	
 	if($ENV{'TM_FILENAME'}=~/\.(m|mm|h|mh)$/)

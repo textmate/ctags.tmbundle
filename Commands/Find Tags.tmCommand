@@ -25,7 +25,7 @@ exec "$TM_BUNDLE_SUPPORT/bin/tmctags"
 	<key>outputLocation</key>
 	<string>newWindow</string>
 	<key>scope</key>
-	<string>source dyn.modifier.command</string>
+	<string>source dyn.modifier.command &amp; dyn.modifier.shift</string>
 	<key>semanticClass</key>
 	<string>callback.mouse-click</string>
 	<key>uuid</key>
