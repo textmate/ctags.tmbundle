@@ -438,6 +438,11 @@ sub _findTags {
 			}
 		}
 	}
+	else
+	{
+		# Strip certain characters from words
+		$word =~ s/://;
+	}
 	
 	my $sound='';
 	
