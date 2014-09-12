@@ -11,6 +11,7 @@
 #	History:
 #	051101 Creation of file
 #	060628 Modified for use inside CTags.tmbundle
+#   140912 Support alternate ctags program
 #
 ###############################################################################
 #
@@ -42,10 +43,10 @@
 	our $DEBUG=0;
 	
 	our $TagFileName=&setFromEnv('TmCtagsTagFileName','tmtags');
-	our $CtagsFlags="--config-filename=tm_ctags --fields=Kn --excmd=pattern -R";
+	our $CtagsFlags=&setFromEnv('TmCtagsAlternateFlags','--config-filename=tm_ctags --fields=Kn --excmd=pattern -R');
 	our $CtagsOptFlags=&setFromEnv('TmCtagsFlags','');
 	our $AutoJump=&setFromEnv('TmCtagsAutoJump',1);
-	our $CtagsPGM="$ENV{'TM_BUNDLE_SUPPORT'}/bin/ctags-objc";
+	our $CtagsPGM=&setFromEnv('TmCtagsAlernatePgm', "$ENV{'TM_BUNDLE_SUPPORT'}/bin/ctags-objc");
 	our $CtagsPGMtmplugin="$ENV{'HOME'}/Library/Application Support/TextMate/PlugIns/TmCodeBrowser.tmplugin/Contents/Resources/ctags";
 	our $CtagsTimeout=&setFromEnv('TmCtagsTimeout',30);		# timeout if ctags does not finish within x seconds
 	
