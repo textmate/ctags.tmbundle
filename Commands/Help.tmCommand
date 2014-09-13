@@ -101,7 +101,15 @@ The name for the sound file played when no definitions are found. If the extensi
 
 * TM\_CTAGS\_ADDITIONAL\_DIRECTORIES
 
-Additional directories for CTags to process for tags. Directories should be seperated by the colon character (":").
+Additional directories for CTags to process for tags. Directories should be separated by the colon character (":").
+
+* TmCtagsAlternatePgm
+
+The path to an alternate ctags executable.  Any program can be specified as long as it produces the proper ctags output.
+
+* TmCtagsAlternateFlags
+
+Provides alternate flags (or no flags) to the configured ctags program.
 
 Credits
 -------
