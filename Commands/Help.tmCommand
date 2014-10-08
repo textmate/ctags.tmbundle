@@ -7,21 +7,13 @@
 	<key>bundleUUID</key>
 	<string>0D39D7BD-CD02-48EF-BB9C-2210BFFC5AD7</string>
 	<key>command</key>
-	<string>#!/bin/bash
+	<string>#!/usr/bin/env bash
+[[ -f "${TM_SUPPORT_PATH}/lib/bash_init.sh" ]] &amp;&amp; . "${TM_SUPPORT_PATH}/lib/bash_init.sh"
+
 . "$TM_SUPPORT_PATH/lib/webpreview.sh"
 html_header "CTags Help" "CTags"
 
-cmds="mmd Markdown.pl cat"
-
-for opt in $cmds
-do
-	cmd=$(command -v "$opt")
-	if [ $cmd ]; then
-		break
-	fi
-done
-
-"$cmd" &lt;&lt;'EOF'|SmartyPants.pl
+Markdown.pl &lt;&lt;'EOF'|SmartyPants.pl
 
 CTags.tmbundle
 ---------------
@@ -143,6 +135,6 @@ html_footer
 	<key>uuid</key>
 	<string>CF06E855-A45F-4AC0-A5F3-D9A99B2D7059</string>
 	<key>version</key>
-	<string>2</string>
+	<integer>2</integer>
 </dict>
 </plist>
