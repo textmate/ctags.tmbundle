@@ -46,7 +46,7 @@
 	our $CtagsFlags=&setFromEnv('TmCtagsAlternateFlags','--config-filename=tm_ctags --fields=Kn --excmd=pattern -R');
 	our $CtagsOptFlags=&setFromEnv('TmCtagsFlags','');
 	our $AutoJump=&setFromEnv('TmCtagsAutoJump',1);
-	our $CtagsPGM=&setFromEnv('TmCtagsAlernatePgm', "$ENV{'TM_BUNDLE_SUPPORT'}/bin/ctags-objc");
+	our $CtagsPGM=&setFromEnv('TmCtagsAlternatePgm', "$ENV{'TM_BUNDLE_SUPPORT'}/bin/ctags-objc");
 	our $CtagsPGMtmplugin="$ENV{'HOME'}/Library/Application Support/TextMate/PlugIns/TmCodeBrowser.tmplugin/Contents/Resources/ctags";
 	our $CtagsTimeout=&setFromEnv('TmCtagsTimeout',30);		# timeout if ctags does not finish within x seconds
 	
