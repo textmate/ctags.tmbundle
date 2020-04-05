@@ -568,8 +568,16 @@ HTML
 		
 	}
 	
-	my $history.=qq{<dt><span class="filename"><a href="txmt://open?url=file://$ENV{'TM_FILEPATH'}&line=$ENV{'TM_LINE_NUMBER'}">$ENV{'TM_FILENAME'}:$ENV{'TM_LINE_NUMBER'} -- $ENV{'TM_DIRECTORY'}</a></span><br><div class="code">$ENV{'TM_CURRENT_LINE'}</div></dt>\n};
-	
+	my $history;
+	if(exists($ENV{'TM_LINE_NUMBER'}))
+	{
+		$history.=qq{<dt><span class="filename"><a href="txmt://open?url=file://$ENV{'TM_FILEPATH'}&line=$ENV{'TM_LINE_NUMBER'}">$ENV{'TM_FILENAME'}:$ENV{'TM_LINE_NUMBER'} -- $ENV{'TM_DIRECTORY'}</a></span><br><div class="code">$ENV{'TM_CURRENT_LINE'}</div></dt>\n};
+	}
+	else
+	{
+		$history.=qq{<dt><span class="filename"><a href="txmt://open?url=file://$ENV{'TM_FILEPATH'}&line=$ENV{'TM_INPUT_START_LINE'}">$ENV{'TM_FILENAME'}:$ENV{'TM_INPUT_START_LINE'} -- $ENV{'TM_DIRECTORY'}</a></span><br><div class="code">$ENV{'TM_SELECTED_TEXT'}</div></dt>\n};
+	}
+  	
 	if($CtagsHistorySize>1)
 	{
 		my $h=$CtagsHistorySize-1;
