@@ -43,7 +43,7 @@
 	our $DEBUG=0;
 	
 	our $TagFileName=&setFromEnv('TmCtagsTagFileName','tmtags');
-	our $CtagsFlags=&setFromEnv('TmCtagsAlternateFlags','--config-filename=tm_ctags --fields=Kn --excmd=pattern -R');
+	our $CtagsFlags=&setFromEnv('TmCtagsAlternateFlags','-f tm_ctags --fields=Kn --excmd=pattern -R');
 	our $CtagsOptFlags=&setFromEnv('TmCtagsFlags','');
 	our $AutoJump=&setFromEnv('TmCtagsAutoJump',1);
 	our $CtagsPGM=&setFromEnv('TmCtagsAlternatePgm', "$ENV{'TM_BUNDLE_SUPPORT'}/bin/ctags-objc");
